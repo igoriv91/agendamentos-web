@@ -5,7 +5,8 @@ import { ProtectedRoute } from '@/shared/components/layout/ProtectedRoute'
 const Login    = lazy(() => import('@/features/auth/Login'))
 const Register = lazy(() => import('@/features/auth/Register'))
 
-const SchedulePage = lazy(() => import('@/features/schedule'))
+const SchedulePage  = lazy(() => import('@/features/schedule'))
+const BookingPage   = lazy(() => import('@/features/booking'))
 const StaffPage    = lazy(() => import('@/features/staff'))
 const StaffForm    = lazy(() => import('@/features/staff/StaffForm'))
 const ServicesPage = lazy(() => import('@/features/services'))
@@ -22,8 +23,9 @@ export const AppRoutes = () => (
   <BrowserRouter>
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path="/"         element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/"              element={<Login />} />
+        <Route path="/register"      element={<Register />} />
+        <Route path="/book/:token"   element={<BookingPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/staff"        element={<StaffPage />} />
