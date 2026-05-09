@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "react-big-calendar/lib/css/react-big-calendar.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -163,4 +164,143 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ─────────────────────────────────────────
+   react-big-calendar — Google Calendar style
+   Deve vir APÓS o @import do rbc css
+───────────────────────────────────────── */
+
+/* Container raiz */
+.rbc-timeline .rbc-calendar {
+  font-family: var(--font-sans);
+}
+
+/* Remove borda externa */
+.rbc-timeline .rbc-time-view {
+  border: none;
+  background: transparent;
+}
+
+/* Esconde a header row padrão (usamos CalendarToolbar) */
+.rbc-timeline .rbc-time-header {
+  display: none !important;
+}
+
+/* Esconde a row de "dia inteiro" — não usamos */
+.rbc-timeline .rbc-allday-cell,
+.rbc-timeline .rbc-row.rbc-time-header-row {
+  display: none !important;
+}
+
+/* Área principal do grid */
+.rbc-timeline .rbc-time-content {
+  border-top: none;
+  background: var(--card);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Cada grupo de 1h (2 slots de 30min) */
+.rbc-timeline .rbc-timeslot-group {
+  border-bottom: 1px solid oklch(0.91 0.015 264);
+  min-height: 64px;    /* altura Google Calendar */
+}
+
+/* Coluna de horas */
+.rbc-timeline .rbc-time-gutter {
+  background: var(--card);
+  border-right: none;
+}
+
+/* Remove linha de meio-hora no gutter */
+.rbc-timeline .rbc-time-gutter .rbc-time-slot {
+  border-top: none;
+}
+
+/* Labels de hora — estilo Google: pequeno, cinza, alinhado ao topo */
+.rbc-timeline .rbc-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: oklch(0.52 0.04 264);
+  padding: 0 8px 0 4px;
+  line-height: 1;
+  position: relative;
+  top: -6px;            /* sobe para ficar no topo da linha */
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Coluna de eventos */
+.rbc-timeline .rbc-day-slot {
+  background: transparent;
+}
+
+/* Linha de meio-hora dentro dos eventos: tracejada bem sutil */
+.rbc-timeline .rbc-day-slot .rbc-time-slot {
+  border-top: 1px dashed oklch(0.94 0.015 264);
+}
+
+/* Remove border da 1ª linha de cada grupo (já tem no grupo) */
+.rbc-timeline .rbc-day-slot .rbc-timeslot-group > .rbc-time-slot:first-child {
+  border-top: none;
+}
+
+/* Eventos — deixa AppointmentCard controlar visual */
+.rbc-timeline .rbc-event {
+  border: none !important;
+  border-radius: 8px;
+  padding: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.rbc-timeline .rbc-event:focus,
+.rbc-timeline .rbc-event.rbc-selected {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+  background: transparent !important;
+}
+
+/* Container de eventos */
+.rbc-timeline .rbc-events-container {
+  margin-right: 4px;
+}
+
+/* Indicador da hora atual — linha + bolinha estilo Google */
+.rbc-timeline .rbc-current-time-indicator {
+  background-color: var(--primary);
+  height: 2px;
+  z-index: 3;
+  border-radius: 1px;
+}
+
+.rbc-timeline .rbc-current-time-indicator::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
+/* Seleção de slot (ao arrastar para criar evento) */
+.rbc-timeline .rbc-slot-selecting .rbc-day-slot .rbc-time-slot,
+.rbc-timeline .rbc-slot-selection {
+  background: oklch(0.39 0.185 264 / 0.12);
+  border-radius: 4px;
+}
+
+/* Dia atual sem fundo azul padrão do rbc */
+.rbc-timeline .rbc-today {
+  background: transparent;
+}
+
+/* Remove separador entre gutter e conteúdo */
+.rbc-timeline .rbc-time-content > * + * > * {
+  border-left: none;
 }

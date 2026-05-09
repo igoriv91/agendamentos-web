@@ -1,9 +1,9 @@
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useMemo } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { AppointmentCard } from './AppointmentCard'
+import { CalendarToolbar } from './CalendarToolbar'
 import type { CalendarEvent } from '../types/appointment.types'
 
 const localizer = dateFnsLocalizer({
@@ -13,15 +13,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales: { 'pt-BR': ptBR },
 })
-
-const MESSAGES = {
-  today: 'Hoje', previous: '<', next: '>',
-  day: 'Dia',
-  showMore: (n: number) => `+${n} mais`,
-  noEventsInRange: 'Sem agendamentos neste período.',
-  date: 'Data', time: 'Hora', event: 'Evento',
-  allDay: 'Dia inteiro',
-}
 
 interface CalendarViewProps {
   events: CalendarEvent[]
@@ -37,15 +28,18 @@ export const CalendarView = ({
   onNavigate, onRangeChange, onSelectEvent, onSelectSlot,
 }: CalendarViewProps) => {
   const components = useMemo(() => ({
+    toolbar: ({ date, onNavigate: nav }: { date: Date; onNavigate: (a: 'PREV' | 'NEXT' | 'TODAY') => void }) => (
+      <CalendarToolbar date={date} onNavigate={nav} />
+    ),
     event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} />,
     day:   { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
   }), [])
 
-  const minTime = useMemo(() => { const d = new Date(); d.setHours(6,0,0,0); return d }, [])
+  const minTime = useMemo(() => { const d = new Date(); d.setHours(6,0,0,0);  return d }, [])
   const maxTime = useMemo(() => { const d = new Date(); d.setHours(22,0,0,0); return d }, [])
 
   return (
-    <div className="h-full">
+    <div className="rbc-timeline h-full">
       <Calendar<CalendarEvent>
         localizer={localizer}
         events={events}
@@ -59,7 +53,7 @@ export const CalendarView = ({
         onSelectSlot={onSelectSlot}
         selectable
         culture="pt-BR"
-        messages={MESSAGES}
+        messages={{ noEventsInRange: '', allDay: '' }}
         components={components}
         style={{ height: '100%' }}
         step={30}
