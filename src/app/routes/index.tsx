@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { useAuth } from '@/app/providers/AuthProvider'
-import { Outlet } from 'react-router-dom'
 
 const Login = lazy(() => import('@/features/auth/Login'))
+const Register = lazy(() => import('@/features/auth/Register'))
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth()
@@ -21,6 +21,7 @@ export const AppRoutes = () => (
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           {/* Feature routes will be added here */}
         </Route>
