@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import {
-  Calendar, Users, Scissors, UserCircle, Settings, LogOut, ShieldCheck,
+  Calendar, Users, Scissors, UserCircle, Settings, LogOut, ShieldCheck, X,
 } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 import { useAuth } from '@/app/providers/AuthProvider'
+import { useSidebar } from '@/app/providers/SidebarProvider'
 
 const companyNavItems = [
   { to: '/schedule',  icon: Calendar,    label: 'Agenda' },
@@ -19,13 +20,21 @@ const adminNavItems = [
 
 export const Sidebar = () => {
   const { user, logout } = useAuth()
+  const { close } = useSidebar()
   const isSuperadmin = user?.role === 'superadmin'
   const navItems = isSuperadmin ? adminNavItems : companyNavItems
 
   return (
-    <aside className="flex h-screen w-60 flex-col border-r bg-card">
-      <div className="flex h-16 items-center border-b px-6">
+    <aside className="flex h-screen w-64 flex-col border-r bg-card">
+      <div className="flex h-16 items-center justify-between border-b px-4">
         <span className="text-lg font-semibold tracking-tight">Agendamentos</span>
+        {/* Close button — mobile only */}
+        <button
+          onClick={close}
+          className="rounded-md p-1 text-muted-foreground hover:bg-muted md:hidden"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
@@ -33,6 +42,7 @@ export const Sidebar = () => {
           <NavLink
             key={to}
             to={to}
+            onClick={close}
             className={({ isActive }) =>
               cn(
                 'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',

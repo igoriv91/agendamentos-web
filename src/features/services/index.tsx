@@ -57,7 +57,7 @@ export default function ServicesPage() {
         subtitle="Gerencie os serviços oferecidos pela empresa"
         actions={<AppButton onClick={navigateToCreate}>Novo Serviço</AppButton>}
       />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <DataTable columns={columns} data={services} isLoading={isLoading} />
       </div>
     </PageLayout>

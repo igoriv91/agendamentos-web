@@ -18,7 +18,7 @@ export default function ServiceForm() {
   return (
     <PageLayout>
       <Header title={isEdit ? 'Editar Serviço' : 'Novo Serviço'} />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <Card className="max-w-lg">
           <CardContent className="pt-6">
             <Form {...form}>

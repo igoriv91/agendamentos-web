@@ -16,7 +16,7 @@ export default function StaffPage() {
         subtitle="Gerencie os atendentes da sua empresa"
         actions={<AppButton onClick={navigateToCreate}>Novo Atendente</AppButton>}
       />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <DataTable columns={columns} data={staff} isLoading={isLoading} />
       </div>
     </PageLayout>

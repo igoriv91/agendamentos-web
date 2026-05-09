@@ -31,7 +31,7 @@ export default function CompanyPage() {
   return (
     <PageLayout>
       <Header title="Configurações" subtitle="Gerencie os dados da sua empresa" />
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         <Tabs defaultValue="company">
           <TabsList className="mb-6">
             <TabsTrigger value="company">Dados da empresa</TabsTrigger>

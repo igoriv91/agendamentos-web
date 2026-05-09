@@ -26,8 +26,8 @@ export const DataTable = <TData,>({ columns, data, isLoading }: DataTableProps<T
   }
 
   return (
-    <div className="rounded-md border">
-      <Table>
+    <div className="rounded-md border overflow-x-auto">
+      <Table className="min-w-full">
         <TableHeader>
           {table.getHeaderGroups().map((hg) => (
             <TableRow key={hg.id}>
