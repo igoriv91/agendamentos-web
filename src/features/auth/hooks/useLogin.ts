@@ -22,7 +22,7 @@ export const useLogin = () => {
     try {
       const result = await authApi.login(data)
       login(result.user, result.token)
-      navigateTo('/schedule')
+      navigateTo(result.user.role === 'superadmin' ? '/admin' : '/schedule')
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erro ao entrar')
     } finally {
