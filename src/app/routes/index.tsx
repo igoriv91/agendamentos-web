@@ -1,14 +1,15 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import { useAuth } from '@/app/providers/AuthProvider'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { ProtectedRoute } from '@/shared/components/layout/ProtectedRoute'
 
-const Login = lazy(() => import('@/features/auth/Login'))
+const Login    = lazy(() => import('@/features/auth/Login'))
 const Register = lazy(() => import('@/features/auth/Register'))
 
-const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuth()
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />
-}
+const StaffPage    = lazy(() => import('@/features/staff'))
+const StaffForm    = lazy(() => import('@/features/staff/StaffForm'))
+const ServicesPage = lazy(() => import('@/features/services'))
+const ServiceForm  = lazy(() => import('@/features/services/ServiceForm'))
+const CompanyPage  = lazy(() => import('@/features/company'))
 
 const PageLoader = () => (
   <div className="flex h-screen items-center justify-center">
@@ -20,11 +21,20 @@ export const AppRoutes = () => (
   <BrowserRouter>
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/"         element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route element={<ProtectedRoute />}>
-          {/* Feature routes will be added here */}
+          <Route path="/staff"        element={<StaffPage />} />
+          <Route path="/staff/new"    element={<StaffForm />} />
+          <Route path="/staff/:id"    element={<StaffForm />} />
+          <Route path="/services"     element={<ServicesPage />} />
+          <Route path="/services/new" element={<ServiceForm />} />
+          <Route path="/services/:id" element={<ServiceForm />} />
+          <Route path="/company"      element={<CompanyPage />} />
+          <Route path="/schedule"     element={<Navigate to="/staff" replace />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
