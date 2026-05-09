@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import {
-  Calendar, Users, Scissors, UserCircle, Settings, LogOut,
+  Calendar, Users, Scissors, UserCircle, Settings, LogOut, ShieldCheck,
 } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 import { useAuth } from '@/app/providers/AuthProvider'
 
-const navItems = [
+const companyNavItems = [
   { to: '/schedule',  icon: Calendar,    label: 'Agenda' },
   { to: '/staff',     icon: Users,       label: 'Atendentes' },
   { to: '/services',  icon: Scissors,    label: 'Serviços' },
@@ -13,8 +13,14 @@ const navItems = [
   { to: '/company',   icon: Settings,    label: 'Configurações' },
 ]
 
+const adminNavItems = [
+  { to: '/admin', icon: ShieldCheck, label: 'Painel Admin' },
+]
+
 export const Sidebar = () => {
   const { user, logout } = useAuth()
+  const isSuperadmin = user?.role === 'superadmin'
+  const navItems = isSuperadmin ? adminNavItems : companyNavItems
 
   return (
     <aside className="flex h-screen w-60 flex-col border-r bg-card">

@@ -12,6 +12,7 @@ const StaffForm    = lazy(() => import('@/features/staff/StaffForm'))
 const ServicesPage = lazy(() => import('@/features/services'))
 const ServiceForm  = lazy(() => import('@/features/services/ServiceForm'))
 const CompanyPage  = lazy(() => import('@/features/company'))
+const AdminPage    = lazy(() => import('@/features/admin'))
 
 const PageLoader = () => (
   <div className="flex h-screen items-center justify-center">
@@ -36,6 +37,7 @@ export const AppRoutes = () => (
           <Route path="/services/:id" element={<ServiceForm />} />
           <Route path="/company"      element={<CompanyPage />} />
           <Route path="/schedule"     element={<SchedulePage />} />
+          <Route path="/admin"        element={<AdminPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
