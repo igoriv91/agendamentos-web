@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { bookingApi } from '../booking.api'
 import type {
   BookingStep, BookingStaff, BookingService,
-  BookingCompany, BookingResult,
+  BookingCompany, BookingResult, TimeSlot,
 } from '../types/booking.types'
 
 const CLIENT_KEY = (token: string) => `booking_client_id_${token}`
@@ -27,7 +27,7 @@ export const useBooking = () => {
   const [selectedService, setSelectedService] = useState<BookingService | null>(null)
 
   const [selectedDate,  setSelectedDate]  = useState<string>(format(new Date(), 'yyyy-MM-dd'))
-  const [slots,         setSlots]         = useState<string[]>([])
+  const [slots,         setSlots]         = useState<TimeSlot[]>([])
   const [selectedSlot,  setSelectedSlot]  = useState<string | null>(null)
   const [loadingSlots,  setLoadingSlots]  = useState(false)
 

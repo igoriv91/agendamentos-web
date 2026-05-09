@@ -42,12 +42,21 @@ const DialogContent = React.forwardRef<HTMLDivElement, React.ComponentProps<type
       <DialogPrimitive.Popup
         ref={ref}
         className={cn(
-          'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]',
-          'max-h-[90dvh] overflow-y-auto',
-          'gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
-          'transition-all duration-200',
-          'data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95',
-          'data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95',
+          // Base
+          'fixed z-50 grid bg-background shadow-lg',
+          // Mobile: bottom sheet
+          'bottom-0 left-0 right-0 w-full max-h-[92dvh] overflow-y-auto',
+          'rounded-t-2xl border-t gap-4 p-6',
+          // Desktop: centered modal
+          'sm:bottom-auto sm:left-1/2 sm:top-1/2',
+          'sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2',
+          'sm:rounded-xl sm:border sm:max-h-[90dvh]',
+          // Animations — mobile slides up, desktop zooms
+          'duration-200',
+          'data-open:animate-in data-open:fade-in-0',
+          'data-closed:animate-out data-closed:fade-out-0',
+          'data-open:slide-in-from-bottom sm:data-open:slide-in-from-bottom-0 sm:data-open:zoom-in-95',
+          'data-closed:slide-out-to-bottom sm:data-closed:slide-out-to-bottom-0 sm:data-closed:zoom-out-95',
           className,
         )}
         {...props}

@@ -2,10 +2,11 @@ import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { AppButton } from '@/shared/components/custom/AppButton'
 import { cn } from '@/shared/lib/utils'
+import type { TimeSlot } from '../types/booking.types'
 
 interface Props {
   selectedDate: string
-  slots: string[]
+  slots: TimeSlot[]
   selectedSlot: string | null
   isLoading: boolean
   serviceName: string
@@ -51,18 +52,19 @@ export const TimeSlotPicker = ({
       </p>
     ) : (
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
-        {slots.map((slot) => (
+        {slots.map(({ time, available }) => (
           <button
-            key={slot}
-            onClick={() => onSlotSelect(slot)}
+            key={time}
+            disabled={!available}
+            onClick={() => available && onSlotSelect(time)}
             className={cn(
               'rounded-md border px-3 py-2 text-sm font-medium transition-colors',
-              selectedSlot === slot
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'hover:bg-muted',
+              !available && 'opacity-40 cursor-not-allowed line-through bg-muted',
+              available && selectedSlot === time && 'bg-primary text-primary-foreground border-primary',
+              available && selectedSlot !== time && 'hover:bg-muted',
             )}
           >
-            {slot}
+            {time}
           </button>
         ))}
       </div>

@@ -16,7 +16,6 @@ export default function SchedulePage() {
   const {
     events, isLoading,
     currentDate, setCurrentDate,
-    currentView, setCurrentView,
     staffFilter, setStaffFilter,
     selectedAppointment, setSelectedAppointment,
     newSlot, setNewSlot,
@@ -60,9 +59,7 @@ export default function SchedulePage() {
             <CalendarView
               events={events}
               currentDate={currentDate}
-              currentView={currentView}
               onNavigate={setCurrentDate}
-              onView={setCurrentView}
               onRangeChange={handleRangeChange}
               onSelectEvent={handleSelectEvent}
               onSelectSlot={(slot) => setNewSlot(slot)}

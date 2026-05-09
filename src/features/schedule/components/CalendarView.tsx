@@ -1,6 +1,6 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useMemo } from 'react'
-import { Calendar, dateFnsLocalizer, type View } from 'react-big-calendar'
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { AppointmentCard } from './AppointmentCard'
@@ -16,7 +16,7 @@ const localizer = dateFnsLocalizer({
 
 const MESSAGES = {
   today: 'Hoje', previous: '<', next: '>',
-  month: 'Mês', week: 'Semana', day: 'Dia', agenda: 'Agenda',
+  day: 'Dia',
   showMore: (n: number) => `+${n} mais`,
   noEventsInRange: 'Sem agendamentos neste período.',
   date: 'Data', time: 'Hora', event: 'Evento',
@@ -26,27 +26,21 @@ const MESSAGES = {
 interface CalendarViewProps {
   events: CalendarEvent[]
   currentDate: Date
-  currentView: View
   onNavigate: (date: Date) => void
-  onView: (view: View) => void
   onRangeChange: (range: Date[] | { start: Date; end: Date }) => void
   onSelectEvent: (event: CalendarEvent) => void
   onSelectSlot: (slot: { start: Date; end: Date }) => void
 }
 
 export const CalendarView = ({
-  events, currentDate, currentView,
-  onNavigate, onView, onRangeChange, onSelectEvent, onSelectSlot,
+  events, currentDate,
+  onNavigate, onRangeChange, onSelectEvent, onSelectSlot,
 }: CalendarViewProps) => {
-  // Stable reference — prevents react-big-calendar from remounting events on every render
   const components = useMemo(() => ({
     event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} />,
-    month: { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
-    week:  { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
     day:   { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
   }), [])
 
-  // Use today's date for min/max so DST is handled correctly
   const minTime = useMemo(() => { const d = new Date(); d.setHours(6,0,0,0); return d }, [])
   const maxTime = useMemo(() => { const d = new Date(); d.setHours(22,0,0,0); return d }, [])
 
@@ -56,9 +50,9 @@ export const CalendarView = ({
         localizer={localizer}
         events={events}
         date={currentDate}
-        view={currentView}
+        view="day"
+        views={['day']}
         onNavigate={onNavigate}
-        onView={onView}
         onRangeChange={onRangeChange}
         onSelectEvent={onSelectEvent}
         onSelectSlot={onSelectSlot}

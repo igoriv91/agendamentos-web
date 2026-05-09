@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { startOfWeek, endOfWeek, format } from 'date-fns'
+import { format } from 'date-fns'
 import { toast } from 'sonner'
-import type { View } from 'react-big-calendar'
 import { scheduleApi } from '../schedule.api'
 import { appointmentMapper } from '../mappers/appointment.mapper'
 import type { Appointment, CalendarEvent } from '../types/appointment.types'
@@ -11,7 +10,6 @@ export const useSchedule = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [currentDate, setCurrentDate] = useState(new Date())
-  const [currentView, setCurrentView] = useState<View>('week')
   const [staffFilter, setStaffFilter] = useState<string | undefined>()
 
   // Selected appointment for detail dialog
@@ -41,35 +39,28 @@ export const useSchedule = () => {
   )
 
   useEffect(() => {
-    const start = startOfWeek(currentDate, { weekStartsOn: 0 })
-    const end = endOfWeek(currentDate, { weekStartsOn: 0 })
-    fetchRange(start, end, staffFilter)
+    fetchRange(currentDate, currentDate, staffFilter)
   }, [currentDate, staffFilter, fetchRange])
 
-  // Track last range to avoid refetching on every calendar re-render
-  const lastRangeRef = useRef<{ start: string; end: string } | null>(null)
+  // Track last date to avoid refetching on every calendar re-render
+  const lastDateRef = useRef<string | null>(null)
 
   const handleRangeChange = (range: Date[] | { start: Date; end: Date }) => {
     const start = Array.isArray(range) ? range[0] : range.start
-    const end   = Array.isArray(range) ? range[range.length - 1] : range.end
-    const key = `${format(start, 'yyyy-MM-dd')}-${format(end, 'yyyy-MM-dd')}`
-    // Ignore duplicate range changes (happens when modal closes and calendar re-renders)
-    if (lastRangeRef.current?.start === key) return
-    lastRangeRef.current = { start: key, end: key }
-    fetchRange(start, end, staffFilter)
+    const key = format(start, 'yyyy-MM-dd')
+    if (lastDateRef.current === key) return
+    lastDateRef.current = key
+    fetchRange(start, start, staffFilter)
   }
 
   const reload = () => {
-    lastRangeRef.current = null   // force refetch even if range is the same
-    const start = startOfWeek(currentDate, { weekStartsOn: 0 })
-    const end   = endOfWeek(currentDate, { weekStartsOn: 0 })
-    fetchRange(start, end, staffFilter)
+    lastDateRef.current = null
+    fetchRange(currentDate, currentDate, staffFilter)
   }
 
   return {
     events, appointments, isLoading,
     currentDate, setCurrentDate,
-    currentView, setCurrentView,
     staffFilter, setStaffFilter,
     selectedAppointment, setSelectedAppointment,
     newSlot, setNewSlot,

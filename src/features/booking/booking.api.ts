@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type {
-  BookingCompany, BookingStaff, BookingService, BookingAppointment, BookingResult,
+  BookingCompany, BookingStaff, BookingService, BookingAppointment, BookingResult, TimeSlot,
 } from './types/booking.types'
 
 // Public API — no auth token needed
@@ -23,8 +23,8 @@ export const bookingApi = {
 
   getAvailability: async (
     token: string, staffId: string, date: string, serviceId: string,
-  ): Promise<string[]> =>
-    (await publicClient.get<string[]>(
+  ): Promise<TimeSlot[]> =>
+    (await publicClient.get<TimeSlot[]>(
       `${base(token)}/staff/${staffId}/availability`,
       { params: { date, serviceId } },
     )).data,

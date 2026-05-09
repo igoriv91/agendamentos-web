@@ -1,5 +1,10 @@
 export type BookingStep = 'staff' | 'service' | 'slot' | 'guest' | 'confirm'
 
+export interface TimeSlot {
+  time: string
+  available: boolean
+}
+
 export interface BookingStaff {
   id: string
   name: string
