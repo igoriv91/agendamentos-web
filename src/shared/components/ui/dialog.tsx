@@ -43,6 +43,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, React.ComponentProps<type
         ref={ref}
         className={cn(
           'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]',
+          'max-h-[90dvh] overflow-y-auto',
           'gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
           'transition-all duration-200',
           'data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95',
