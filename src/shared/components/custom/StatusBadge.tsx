@@ -1,20 +1,27 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/shared/lib/utils'
 
+// MD3 Tonal Chip — cor de fundo derivada do token do status, contraste garantido
 const variants = cva(
-  'inline-flex items-center rounded-full px-2 py-1 text-xs font-medium',
+  'inline-flex items-center rounded-full px-3 py-0.5 text-xs font-medium leading-5 tracking-wide',
   {
     variants: {
       status: {
-        active:    'bg-green-100 text-green-700',
-        pending:   'bg-yellow-100 text-yellow-700',
-        blocked:   'bg-red-100 text-red-700',
-        inactive:  'bg-gray-100 text-gray-600',
-        cancelled: 'bg-red-100 text-red-700',
-        confirmed: 'bg-blue-100 text-blue-700',
-        completed: 'bg-green-100 text-green-700',
-        overdue:   'bg-orange-100 text-orange-700',
-        grace:     'bg-orange-100 text-orange-700',
+        // verde — ativo / realizado
+        active:    'bg-[oklch(0.93_0.07_143)] text-[oklch(0.32_0.13_143)]',
+        completed: 'bg-[oklch(0.93_0.07_143)] text-[oklch(0.32_0.13_143)]',
+        // azul primário — confirmado
+        confirmed: 'bg-[oklch(0.92_0.06_264)] text-[oklch(0.35_0.16_264)]',
+        // âmbar — pendente
+        pending:   'bg-[oklch(0.95_0.07_85)]  text-[oklch(0.40_0.12_75)]',
+        // laranja — vencido / carência
+        overdue:   'bg-[oklch(0.93_0.08_50)]  text-[oklch(0.40_0.13_45)]',
+        grace:     'bg-[oklch(0.93_0.08_50)]  text-[oklch(0.40_0.13_45)]',
+        // vermelho — bloqueado / cancelado
+        blocked:   'bg-[oklch(0.93_0.07_27)]  text-[oklch(0.40_0.15_27)]',
+        cancelled: 'bg-[oklch(0.93_0.07_27)]  text-[oklch(0.40_0.15_27)]',
+        // cinza neutro — inativo
+        inactive:  'bg-[oklch(0.92_0.01_264)] text-[oklch(0.45_0.03_264)]',
       },
     },
     defaultVariants: { status: 'pending' },

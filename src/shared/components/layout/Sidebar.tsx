@@ -25,19 +25,27 @@ export const Sidebar = () => {
   const navItems = isSuperadmin ? adminNavItems : companyNavItems
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r bg-card">
-      <div className="flex h-16 items-center justify-between border-b px-4">
-        <span className="text-lg font-semibold tracking-tight">Agendamentos</span>
-        {/* Close button — mobile only */}
+    <aside className="flex h-screen w-64 flex-col bg-sidebar">
+      {/* Logo mark + app name */}
+      <div className="flex h-16 items-center justify-between px-4 border-b border-sidebar-border">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sidebar-primary">
+            <Calendar className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-base font-semibold tracking-tight text-sidebar-foreground">
+            Agendamentos
+          </span>
+        </div>
         <button
           onClick={close}
-          className="rounded-md p-1 text-muted-foreground hover:bg-muted md:hidden"
+          className="rounded-full p-1.5 text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors md:hidden"
         >
           <X className="h-5 w-5" />
         </button>
       </div>
 
-      <nav className="flex-1 space-y-1 p-3">
+      {/* Navigation */}
+      <nav className="flex-1 space-y-0.5 p-3 overflow-y-auto">
         {navItems.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
@@ -45,29 +53,39 @@ export const Sidebar = () => {
             onClick={close}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
+                'flex items-center gap-3 rounded-full px-4 py-3 text-sm font-medium transition-all',
                 isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                  ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                  : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
               )
             }
           >
-            <Icon className="h-4 w-4" />
-            {label}
+            {({ isActive }) => (
+              <>
+                <Icon className={cn('h-5 w-5 shrink-0', isActive ? 'opacity-100' : 'opacity-70')} />
+                <span>{label}</span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
-      <div className="border-t p-3">
-        <div className="mb-2 px-3 py-1">
-          <p className="text-sm font-medium">{user?.name}</p>
-          <p className="text-xs text-muted-foreground">{user?.email}</p>
+      {/* User profile + logout */}
+      <div className="border-t border-sidebar-border p-3 space-y-0.5">
+        <div className="flex items-center gap-3 px-4 py-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-sidebar-accent-foreground text-xs font-semibold">
+            {user?.name?.charAt(0).toUpperCase() ?? 'U'}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-medium text-sidebar-foreground truncate">{user?.name}</p>
+            <p className="text-xs text-sidebar-foreground/50 truncate">{user?.email}</p>
+          </div>
         </div>
         <button
           onClick={logout}
-          className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="flex w-full items-center gap-3 rounded-full px-4 py-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
-          <LogOut className="h-4 w-4" />
+          <LogOut className="h-5 w-5 opacity-70" />
           Sair
         </button>
       </div>
