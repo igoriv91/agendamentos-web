@@ -41,9 +41,9 @@ export const CalendarView = ({
   // Stable reference — prevents react-big-calendar from remounting events on every render
   const components = useMemo(() => ({
     event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} />,
-    // week and day views use the same "event" key
-    week: { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
-    day:  { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
+    month: { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
+    week:  { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
+    day:   { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
   }), [])
 
   // Use today's date for min/max so DST is handled correctly

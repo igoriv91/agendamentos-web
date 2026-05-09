@@ -13,6 +13,7 @@ interface Props {
   appointment: Appointment | null
   onClose: () => void
   onDone: () => void
+  onEdit: (appointment: Appointment) => void
 }
 
 const STATUS_LABEL: Record<string, string> = {
@@ -20,7 +21,7 @@ const STATUS_LABEL: Record<string, string> = {
   completed: 'Realizado', cancelled: 'Cancelado',
 }
 
-export const AppointmentDetail = ({ appointment, onClose, onDone }: Props) => {
+export const AppointmentDetail = ({ appointment, onClose, onDone, onEdit }: Props) => {
   const { isLoading, confirm, complete, cancel } = useAppointmentActions(() => {
     onDone()
     onClose()
@@ -57,6 +58,13 @@ export const AppointmentDetail = ({ appointment, onClose, onDone }: Props) => {
 
         {appointment.status !== 'completed' && appointment.status !== 'cancelled' && (
           <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              size="sm" variant="outline"
+              disabled={isLoading}
+              onClick={() => { onClose(); onEdit(appointment) }}
+            >
+              Editar
+            </Button>
             {appointment.status === 'pending' && (
               <AppButton size="sm" isLoading={isLoading} onClick={() => confirm(appointment.id)}>
                 Confirmar

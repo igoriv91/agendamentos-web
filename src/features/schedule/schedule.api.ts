@@ -13,6 +13,15 @@ export interface CreateAppointmentPayload {
   clientPhone?: string
 }
 
+export interface UpdateAppointmentPayload {
+  staffId?: string
+  serviceId?: string
+  scheduledAt?: string
+  clientName?: string
+  clientPhone?: string
+  notes?: string
+}
+
 export const scheduleApi = {
   list: async (startDate: string, endDate: string, staffId?: string): Promise<Appointment[]> => {
     const params: Record<string, string> = { startDate, endDate }
@@ -28,6 +37,11 @@ export const scheduleApi = {
 
   create: async (data: CreateAppointmentPayload): Promise<Appointment> => {
     const res = await apiClient.post<AppointmentApiResponse>('/appointments', data)
+    return appointmentMapper.toDomain(res.data)
+  },
+
+  update: async (id: string, data: UpdateAppointmentPayload): Promise<Appointment> => {
+    const res = await apiClient.put<AppointmentApiResponse>(`/appointments/${id}`, data)
     return appointmentMapper.toDomain(res.data)
   },
 

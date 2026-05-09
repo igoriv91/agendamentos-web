@@ -8,8 +8,9 @@ import { StaffFilter } from './components/StaffFilter'
 import { CalendarView } from './components/CalendarView'
 import { AppointmentDetail } from './components/AppointmentDetail'
 import { AppointmentFormDialog } from './components/AppointmentFormDialog'
+import { AppointmentEditDialog } from './components/AppointmentEditDialog'
 import { useSchedule } from './hooks/useSchedule'
-import type { CalendarEvent } from './types/appointment.types'
+import type { Appointment, CalendarEvent } from './types/appointment.types'
 
 export default function SchedulePage() {
   const {
@@ -22,7 +23,8 @@ export default function SchedulePage() {
     handleRangeChange, reload,
   } = useSchedule()
 
-  const [staffList, setStaffList] = useState<Staff[]>([])
+  const [staffList, setStaffList]           = useState<Staff[]>([])
+  const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null)
 
   useEffect(() => { staffApi.list().then(setStaffList) }, [])
 
@@ -73,6 +75,13 @@ export default function SchedulePage() {
         appointment={selectedAppointment}
         onClose={() => setSelectedAppointment(null)}
         onDone={reload}
+        onEdit={(appt) => setEditingAppointment(appt)}
+      />
+
+      <AppointmentEditDialog
+        appointment={editingAppointment}
+        onClose={() => setEditingAppointment(null)}
+        onSuccess={reload}
       />
 
       <AppointmentFormDialog
