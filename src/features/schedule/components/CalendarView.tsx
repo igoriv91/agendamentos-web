@@ -52,6 +52,7 @@ export const CalendarView = ({
         date={currentDate}
         view="day"
         views={['day']}
+        onView={() => {}}
         onNavigate={onNavigate}
         onRangeChange={onRangeChange}
         onSelectEvent={onSelectEvent}
