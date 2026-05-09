@@ -1,5 +1,5 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 import { Calendar, dateFnsLocalizer, type View } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -38,12 +38,17 @@ export const CalendarView = ({
   events, currentDate, currentView,
   onNavigate, onView, onRangeChange, onSelectEvent, onSelectSlot,
 }: CalendarViewProps) => {
-  const components = useCallback(
-    () => ({
-      event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} />,
-    }),
-    [],
-  )
+  // Stable reference — prevents react-big-calendar from remounting events on every render
+  const components = useMemo(() => ({
+    event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} />,
+    // week and day views use the same "event" key
+    week: { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
+    day:  { event: ({ event }: { event: CalendarEvent }) => <AppointmentCard event={event} /> },
+  }), [])
+
+  // Use today's date for min/max so DST is handled correctly
+  const minTime = useMemo(() => { const d = new Date(); d.setHours(6,0,0,0); return d }, [])
+  const maxTime = useMemo(() => { const d = new Date(); d.setHours(22,0,0,0); return d }, [])
 
   return (
     <div className="h-full">
@@ -60,12 +65,12 @@ export const CalendarView = ({
         selectable
         culture="pt-BR"
         messages={MESSAGES}
-        components={components()}
+        components={components}
         style={{ height: '100%' }}
         step={30}
         timeslots={2}
-        min={new Date(0, 0, 0, 6, 0)}
-        max={new Date(0, 0, 0, 22, 0)}
+        min={minTime}
+        max={maxTime}
       />
     </div>
   )

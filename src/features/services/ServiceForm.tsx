@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/shared/components/ui/input'
 import { Button } from '@/shared/components/ui/button'
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger,
 } from '@/shared/components/ui/select'
 import { useAppNavigate } from '@/shared/hooks/useAppNavigate'
 import { useServiceForm } from './hooks/useServiceForm'
@@ -51,7 +51,11 @@ export default function ServiceForm() {
                     <FormLabel>Atendente (opcional)</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Todos os atendentes" /></SelectTrigger>
+                        <SelectTrigger>
+                          <span className={field.value ? '' : 'text-muted-foreground'}>
+                            {staffList.find((s) => s.id === field.value)?.name ?? 'Todos os atendentes'}
+                          </span>
+                        </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="">Todos os atendentes</SelectItem>

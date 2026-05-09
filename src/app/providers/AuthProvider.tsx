@@ -17,16 +17,27 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+const SESSION_USER_KEY = 'auth_user'
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const stored = sessionStorage.getItem(SESSION_USER_KEY)
+      return stored ? (JSON.parse(stored) as User) : null
+    } catch {
+      return null
+    }
+  })
 
   const login = (user: User, token: string) => {
     sessionStorage.setItem('token', token)
+    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user))
     setUser(user)
   }
 
   const logout = () => {
     sessionStorage.removeItem('token')
+    sessionStorage.removeItem(SESSION_USER_KEY)
     setUser(null)
   }
 

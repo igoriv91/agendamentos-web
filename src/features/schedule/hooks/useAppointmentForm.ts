@@ -15,7 +15,7 @@ const schema = z.object({
   serviceId:   z.string().min(1, 'Selecione o serviço'),
   scheduledAt: z.string().min(1, 'Informe data e hora'),
   clientName:  z.string().min(1, 'Nome do cliente é obrigatório'),
-  clientPhone: z.string().min(1, 'Telefone é obrigatório'),
+  clientPhone: z.string().optional(),
   notes:       z.string().optional(),
 })
 

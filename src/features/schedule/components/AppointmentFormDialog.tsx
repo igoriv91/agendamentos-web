@@ -4,12 +4,27 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger,
 } from '@/shared/components/ui/select'
 import { Textarea } from '@/shared/components/ui/textarea'
 import { AppButton } from '@/shared/components/custom/AppButton'
 import { Button } from '@/shared/components/ui/button'
 import { useAppointmentForm } from '../hooks/useAppointmentForm'
+
+// Renders the selected label directly — @base-ui SelectValue
+// doesn't track text until the popup is opened for the first time.
+const SelectLabel = ({ value, items, placeholder }: {
+  value: string
+  items: { id: string; label: string }[]
+  placeholder: string
+}) => {
+  const found = items.find((i) => i.id === value)
+  return (
+    <span className={found ? '' : 'text-muted-foreground'}>
+      {found ? found.label : placeholder}
+    </span>
+  )
+}
 
 interface Props {
   slot: { start: Date; end: Date } | null
@@ -35,7 +50,15 @@ export const AppointmentFormDialog = ({ slot, onClose, onSuccess }: Props) => {
               <FormItem>
                 <FormLabel>Atendente</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger></FormControl>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectLabel
+                        value={field.value}
+                        items={staffList.map((s) => ({ id: s.id, label: s.name }))}
+                        placeholder="Selecione o atendente"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
                   <SelectContent>
                     {staffList.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
                   </SelectContent>
@@ -47,7 +70,15 @@ export const AppointmentFormDialog = ({ slot, onClose, onSuccess }: Props) => {
               <FormItem>
                 <FormLabel>Serviço</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger></FormControl>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectLabel
+                        value={field.value}
+                        items={serviceList.map((s) => ({ id: s.id, label: `${s.name} (${s.durationMinutes} min)` }))}
+                        placeholder="Selecione o serviço"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
                   <SelectContent>
                     {serviceList.map((s) => (
                       <SelectItem key={s.id} value={s.id}>{s.name} ({s.durationMinutes} min)</SelectItem>
