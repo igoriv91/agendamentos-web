@@ -1,5 +1,6 @@
-import { Menu } from 'lucide-react'
+import { Menu, Sun, Moon } from 'lucide-react'
 import { useSidebar } from '@/app/providers/SidebarProvider'
+import { useTheme } from '@/app/providers/ThemeProvider'
 import { NotificationBell } from '@/features/notifications/components/NotificationBell'
 import { Button } from '@/shared/components/ui/button'
 
@@ -11,6 +12,7 @@ interface HeaderProps {
 
 export const Header = ({ title, subtitle, actions }: HeaderProps) => {
   const { toggle } = useSidebar()
+  const { theme, toggle: toggleTheme } = useTheme()
 
   return (
     <div className="flex items-center justify-between border-b bg-card px-4 py-3 md:px-6">
@@ -30,8 +32,17 @@ export const Header = ({ title, subtitle, actions }: HeaderProps) => {
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center gap-1 shrink-0">
         {actions}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          className="text-muted-foreground"
+          aria-label={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+        >
+          {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </Button>
         <NotificationBell />
       </div>
     </div>
