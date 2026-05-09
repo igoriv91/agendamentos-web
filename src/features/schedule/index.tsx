@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
+import { Plus } from 'lucide-react'
 import { PageLayout } from '@/shared/components/layout/PageLayout'
 import { Header } from '@/shared/components/layout/Header'
-import { AppButton } from '@/shared/components/custom/AppButton'
 import { staffApi } from '@/features/staff/staff.api'
 import type { Staff } from '@/features/staff/types/staff.types'
 import { StaffFilter } from './components/StaffFilter'
@@ -36,11 +36,6 @@ export default function SchedulePage() {
       <Header
         title="Agenda"
         subtitle="Visualize e gerencie os agendamentos"
-        actions={
-          <AppButton onClick={() => setNewSlot({ start: new Date(), end: new Date() })}>
-            Novo Agendamento
-          </AppButton>
-        }
       />
 
       <div className="flex flex-col gap-3 p-4 flex-1 min-h-0">
@@ -86,6 +81,14 @@ export default function SchedulePage() {
         onClose={() => setNewSlot(null)}
         onSuccess={reload}
       />
+
+      <button
+        onClick={() => setNewSlot({ start: new Date(), end: new Date() })}
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
+        aria-label="Novo agendamento"
+      >
+        <Plus className="h-6 w-6" />
+      </button>
     </PageLayout>
   )
 }
