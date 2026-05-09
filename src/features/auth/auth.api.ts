@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/services/api'
-import type { LoginFormData, RegisterFormData } from './schemas/auth.schema'
+import type { LoginFormData, RegisterPayload } from './schemas/auth.schema'
 
 interface AuthResponse {
   token: string
@@ -23,7 +23,7 @@ export const authApi = {
     return res.data
   },
 
-  register: async (data: RegisterFormData): Promise<AuthResponse> => {
+  register: async (data: RegisterPayload): Promise<AuthResponse> => {
     const res = await apiClient.post<AuthResponse>('/auth/register', data)
     return res.data
   },

@@ -18,9 +18,10 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
         />
       )}
 
-      {/* Sidebar: fixed overlay on mobile, static on desktop */}
+      {/* Sidebar: overlay no mobile, estático no desktop (largura gerida pelo próprio Sidebar) */}
       <div className={[
-        'fixed inset-y-0 left-0 z-40 transition-transform duration-300 md:relative md:translate-x-0 md:flex',
+        'fixed inset-y-0 left-0 z-40 transition-transform duration-300',
+        'md:relative md:translate-x-0 md:flex md:shrink-0',
         isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
       ].join(' ')}>
         <Sidebar />
