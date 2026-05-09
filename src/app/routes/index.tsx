@@ -5,6 +5,7 @@ import { ProtectedRoute } from '@/shared/components/layout/ProtectedRoute'
 const Login    = lazy(() => import('@/features/auth/Login'))
 const Register = lazy(() => import('@/features/auth/Register'))
 
+const SchedulePage = lazy(() => import('@/features/schedule'))
 const StaffPage    = lazy(() => import('@/features/staff'))
 const StaffForm    = lazy(() => import('@/features/staff/StaffForm'))
 const ServicesPage = lazy(() => import('@/features/services'))
@@ -32,7 +33,7 @@ export const AppRoutes = () => (
           <Route path="/services/new" element={<ServiceForm />} />
           <Route path="/services/:id" element={<ServiceForm />} />
           <Route path="/company"      element={<CompanyPage />} />
-          <Route path="/schedule"     element={<Navigate to="/staff" replace />} />
+          <Route path="/schedule"     element={<SchedulePage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
