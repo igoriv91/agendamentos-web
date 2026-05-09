@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { useParams } from 'react-router-dom'
@@ -17,7 +17,7 @@ export const useServiceForm = () => {
   const [staffList, setStaffList] = useState<Staff[]>([])
 
   const form = useForm<ServiceFormData>({
-    resolver: zodResolver(serviceSchema),
+    resolver: zodResolver(serviceSchema) as Resolver<ServiceFormData>,
     defaultValues: { name: '', durationMinutes: 30, description: '', staffId: '' },
   })
 
@@ -39,7 +39,9 @@ export const useServiceForm = () => {
     setIsLoading(true)
     try {
       const payload = {
-        ...data,
+        name: data.name,
+        durationMinutes: Number(data.durationMinutes),
+        price: data.price ? Number(data.price) : undefined,
         staffId: data.staffId || undefined,
         description: data.description || undefined,
       }

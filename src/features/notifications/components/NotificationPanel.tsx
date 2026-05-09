@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void
 }
 
-export const NotificationPanel = ({ notifications, onMarkAllRead, onClose }: Props) => (
+export const NotificationPanel = ({ notifications, onMarkAllRead }: Omit<Props, 'onClose'> & { onClose?: () => void }) => (
   <div className="flex flex-col" style={{ maxHeight: '70vh' }}>
     <div className="flex items-center justify-between border-b p-3">
       <span className="font-semibold text-sm">Notificações</span>

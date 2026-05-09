@@ -1,10 +1,9 @@
+import type { ComponentProps } from 'react'
 import { Loader2 } from 'lucide-react'
-import { Button, type ButtonProps } from '@/shared/components/ui/button'
+import { Button } from '@/shared/components/ui/button'
 import { cn } from '@/shared/lib/utils'
 
-interface AppButtonProps extends ButtonProps {
-  isLoading?: boolean
-}
+type AppButtonProps = ComponentProps<typeof Button> & { isLoading?: boolean }
 
 export const AppButton = ({
   isLoading,

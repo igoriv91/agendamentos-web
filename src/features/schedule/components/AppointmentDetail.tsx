@@ -62,15 +62,13 @@ export const AppointmentDetail = ({ appointment, onClose, onDone }: Props) => {
                 Confirmar
               </AppButton>
             )}
-            {appointment.status !== 'completed' && (
-              <AppButton
-                size="sm" variant="secondary"
-                isLoading={isLoading}
-                onClick={() => complete(appointment.id)}
-              >
-                Marcar realizado
-              </AppButton>
-            )}
+            <AppButton
+              size="sm" variant="secondary"
+              isLoading={isLoading}
+              onClick={() => complete(appointment.id)}
+            >
+              Marcar realizado
+            </AppButton>
             <Button
               size="sm" variant="destructive"
               disabled={isLoading}

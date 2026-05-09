@@ -23,7 +23,9 @@ const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFi
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ ...props }: ControllerProps<TFieldValues, TName>) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TTransformedValues extends FieldValues | undefined = undefined,
+>({ ...props }: ControllerProps<TFieldValues, TName, TTransformedValues>) => (
   <FormFieldContext.Provider value={{ name: props.name }}>
     <Controller {...props} />
   </FormFieldContext.Provider>

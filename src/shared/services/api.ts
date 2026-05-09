@@ -1,13 +1,14 @@
 import axios from 'axios'
 
 export class ApiError extends Error {
-  constructor(
-    message: string,
-    public code?: number,
-    public statusCode?: number,
-  ) {
+  code: number | undefined
+  statusCode: number | undefined
+
+  constructor(message: string, code?: number, statusCode?: number) {
     super(message)
     this.name = 'ApiError'
+    this.code = code
+    this.statusCode = statusCode
   }
 }
 
