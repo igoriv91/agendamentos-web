@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui
 import { Button } from '@/shared/components/ui/button'
 import { Separator } from '@/shared/components/ui/separator'
 import { staffApi } from '@/features/staff/staff.api'
+import { SubscriptionStatus } from '@/features/subscription/components/SubscriptionStatus'
 import { useEffect, useRef } from 'react'
 import type { Staff } from '@/features/staff/types/staff.types'
 import { useCompany } from './hooks/useCompany'
@@ -36,6 +37,7 @@ export default function CompanyPage() {
             <TabsTrigger value="company">Dados da empresa</TabsTrigger>
             <TabsTrigger value="hours">Horários de funcionamento</TabsTrigger>
             <TabsTrigger value="link">Link de agendamento</TabsTrigger>
+            <TabsTrigger value="subscription">Assinatura</TabsTrigger>
           </TabsList>
 
           <TabsContent value="company">
@@ -130,6 +132,10 @@ export default function CompanyPage() {
                 </p>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="subscription">
+            <SubscriptionStatus />
           </TabsContent>
         </Tabs>
       </div>
